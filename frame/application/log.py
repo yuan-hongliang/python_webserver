@@ -17,17 +17,10 @@ class Log:
     log_deque=deque([])
 
 
-def init_log_list(config):
-    '''
-    初始化log
-    :param config: 配置列表
-    :return:
-    '''
-    if "log" in config:
-        if "storage_address" in config["log"]:
-            Log._storage_address = config["log"]["storage_address"]
-        if "log_max_len" in config["log"]:
-            Log._log_max_len = int(config["log"]["log_max_len"])
+def init_log_list(_storage_address='log.txt',_log_max_len=100):
+
+    Log._storage_address = _storage_address
+    Log._log_max_len = _log_max_len
 
     '''
     创建一个空的的log文件

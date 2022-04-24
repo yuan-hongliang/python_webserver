@@ -2,7 +2,7 @@ from frame.application import container
 from frame.init import engine
 from frame.execute.task import *
 from frame.thread.thread_pool import ThreadPoolExecutor
-from frame.application.log import init_log_list,storage_all_data
+from frame.application.log import storage_all_data
 import json
 import threading
 import os
@@ -126,11 +126,6 @@ def init_():
     global request_queue,_request_queue_len
     request_queue,_request_queue_len = container.get_request_queue()
 
-    '''
-    初始化日志队列日志队列
-    '''
-    init_log_list(application)
-    print("日志队列初始成功")
 
     '''
     thread_poll 线程池，可以设置最大线程数和最大任务等待队列

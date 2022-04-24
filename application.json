@@ -13,7 +13,6 @@
     "wait_queue_maximum": "1000"
   },
   "log": {
-    "open_exception_log": "True",
     "storage_address": "log.txt",
     "log_max_len" : "1000"
   }
