@@ -2,7 +2,7 @@
   "init": {
     "controller": ["controller"],
     "filter": ["filter"],
-    "reject_this_IP": []
+    "reject_this_IP": ["127.0.0.1"]
   },
   "server": {
     "host": "0.0.0.0",

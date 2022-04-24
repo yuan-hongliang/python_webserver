@@ -9,7 +9,7 @@ from frame.mointer.setup import create_setup
 from frame.mointer.address import create_address
 from frame.mointer.log import create_log
 from frame.mointer.listener import Listener
-from frame.init.init_server import get_thread_pool
+from frame.application.container import get_thread_pool
 import threading
 import time
 

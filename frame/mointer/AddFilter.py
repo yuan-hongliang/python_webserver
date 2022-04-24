@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
-from frame.init.init_filter import get_filter_dict,get_initial_filter
+from frame.application.container import get_filter_dict,get_initial_filter
 
 
 table=None

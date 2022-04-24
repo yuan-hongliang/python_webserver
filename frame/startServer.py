@@ -1,6 +1,6 @@
-from frame.init.get_mapping import all_mapping
+from frame.application import container
+from frame.init.engine import init
 from frame.init.init_server import *
-from frame.init.init_filter import get_filter_dict,get_reject_list
 from frame.execute.task import *
 from frame.thread.thread_pool import ThreadPoolExecutor
 from frame.application.log import init_log_list,storage_all_data
@@ -87,7 +87,7 @@ thread_poll_error=None
 # socket来凝结
 socket,HOST, POST=None,None,None
 # 监听者
-_max_monitor=None
+_max_monitor=1000
 
 def init_():
     pass
@@ -101,12 +101,17 @@ def init_():
         application = json.load(f)
 
     '''
+    初始化容器
+    '''
+    init(application)
+
+    '''
     get_mapping get方法的方法列表
     post_mapping post方法的方法列表
     通过init.controller判断扫描的包
     '''
     global get_mapping,post_mapping
-    get_mapping,post_mapping = all_mapping(application)
+    get_mapping,post_mapping = container.all_mapping()
     print("包文件扫描成功")
 
     '''
@@ -114,15 +119,15 @@ def init_():
     通过init.filter判断扫描的包
     '''
     global filter_dict,reject_list
-    filter_dict = get_filter_dict(application,get_mapping,post_mapping)
-    reject_list = get_reject_list()
+    filter_dict = container.get_filter_dict()
+    reject_list = container.get_reject_list()
     print("过滤器加载成功")
 
     '''
     request_queue 请求队列，最大长度在application.json的 server.request_queue_maximum 设置
     '''
     global request_queue,_request_queue_len
-    request_queue,_request_queue_len = get_request_queue(application)
+    request_queue,_request_queue_len = container.get_request_queue()
     print("请求队列初始化成功")
 
     '''
@@ -136,7 +141,7 @@ def init_():
     最大线程数和等待队列在application.json的 server.thread_pool_max_workers和server.wait_queue_maximum设置
     '''
     global thread_poll,_max_workers,_wait_queue,thread_poll_error
-    thread_poll,_max_workers,_wait_queue = get_thread_pool(application)
+    thread_poll,_max_workers,_wait_queue = container.get_thread_pool()
     thread_poll_error = ThreadPoolExecutor(_max_workers//2,_wait_queue//2)
     print("线程池创建成功")
 
@@ -144,14 +149,16 @@ def init_():
     创建socket连接
     '''
     global socket,HOST, POST
-    socket,HOST, POST = get_socket(application)
+    socket,HOST, POST = container.get_socket()
     print("socket连接创建成功，服务器启动在"+str(POST)+"端口")
 
     '''
     可以同时监听多少个请求
     '''
     global _max_monitor
-    _max_monitor=get_max_minotor(application)
+    if "server" in application:
+        if "monitor" in application["server"]:
+            _max_monitor = int(application["server"]["monitor"])
 
 
 '''

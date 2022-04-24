@@ -1,22 +1,27 @@
-from tkinter import *
-from tkinter import ttk
-import time
-#画窗口
-root = Tk()
-root.geometry('1000x500')
-root.resizable(False, False)
-graph = Canvas(root, width=1000, height=550, background='black')#后面查点和删点的时候需要画布类
-graph.grid()
-#初始化点
-tracePlot=[20,20,30,30,40,50,56,78]
-#实现动态显示
-while True:
-    t = time.time()
-    time.sleep(1)
-    tracePlot[3]=int(t % 100) #动态变化的数据
-    traceID = graph.create_line(tracePlot, fill='Red', width=2)
-    root.update_idletasks()
-    root.update()#更新显示
-    graphItems = graph.find_all()
-    for n in graphItems:
-        graph.delete(n) #如果没有删除操作，旧点不消除，新点也会画在上面
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Fixing random state for reproducibility
+np.random.seed(19680801)
+
+dt = 0.01
+t = np.arange(0, 30, dt)
+nse1 = np.random.randn(len(t))                 # white noise 1
+nse2 = np.random.randn(len(t))                 # white noise 2
+
+# Two signals with a coherent part at 10Hz and a random part
+s1 = np.sin(2 * np.pi * 10 * t) + nse1
+s2 = np.sin(2 * np.pi * 10 * t) + nse2
+
+fig, axs = plt.subplots(2, 1)
+axs[0].plot(t, s1, t, s2)
+axs[0].set_xlim(0, 2)
+axs[0].set_xlabel('time')
+axs[0].set_ylabel('s1 and s2')
+axs[0].grid(True)
+
+cxy, f = axs[1].cohere(s1, s2, 256, 1. / dt)
+axs[1].set_ylabel('coherence')
+
+fig.tight_layout()
+plt.show()

@@ -1,17 +1,18 @@
 import inspect
 import sys
+from frame.application.container import add_new_interface
 
 class_list=[]
-class Mapping:
-    _get_mapping={}
-    _post_mapping={}
 
-def all_mapping(application=None):
-    if application!=None:
-        get_all_class(application)
-        Mapping._post_mapping=post_mapping()
-        Mapping._get_mapping=get_mapping()
-    return (Mapping._get_mapping,Mapping._post_mapping)
+def init_mapping(application=None):
+    get_all_class(application)
+    _post_mapping = post_mapping()
+    _get_mapping = get_mapping()
+    for item in _post_mapping:
+        add_new_interface(item,_post_mapping[item],'post')
+    for item in _get_mapping:
+        add_new_interface(item,_get_mapping[item],'get')
+    return _post_mapping,_get_mapping
 
 def get_mapping():
     return mapping("get")
@@ -84,18 +85,6 @@ def get_all_class(application):
             obj=getattr(imp_module, name)
             class_list.append(obj)
 
-def add_new_interface(name,fn,method='all'):
-    '''
-    向mapping中添加一个新的接口
-    :param name: 接口名，也就是路径名
-    :param fn: 方法对象
-    :param method: 方法类型
-    :return:
-    '''
-    if method=='get' or method=='all':
-        Mapping._get_mapping[name]=fn
-    if method=='post' or method=='all':
-        Mapping._post_mapping[name]=fn
 
 
 

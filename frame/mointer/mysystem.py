@@ -1,6 +1,6 @@
 import tkinter as tk
 import tkinter.ttk
-from frame.init.init_server import get_thread_pool,get_request_queue
+from frame.application.container import get_thread_pool,get_request_queue
 import threading
 from time import sleep
 from frame.mointer.listener import get_visit_count,get_system_info

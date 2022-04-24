@@ -1,18 +1,11 @@
 import inspect,sys
+from frame.application import container
 
-class FilterDict:
-    _initial_filter_dict={}
-    _filter_dict={}
-    _reject_ip_list=set()
 
-def get_filter_dict(config=None,get_mapping=None,post_mapping=None):
+def init_filter_dict(config=None,get_mapping=None,post_mapping=None):
     if config!=None:
-        FilterDict._filter_dict=get_filter_dict_(config,get_mapping,post_mapping)
+        container.set_filter_dict(get_filter_dict_(config, get_mapping, post_mapping))
         init_reject_list(config)
-    return FilterDict._filter_dict
-
-def get_initial_filter():
-    return FilterDict._initial_filter_dict
 
 def init_reject_list(config):
     '''
@@ -23,43 +16,8 @@ def init_reject_list(config):
     if "init" in config:
         if "reject_this_IP" in config["init"]:
             for item in config["init"]["reject_this_IP"]:
-                add_reject_list(item)
+                container.add_reject_list(item)
 
-def add_reject_list(ip_address):
-    '''
-    像拦截队列添加一个IP
-    :param ip_address:
-    :return:
-    '''
-    FilterDict._reject_ip_list.add(ip_address)
-
-def get_reject_list():
-    '''
-    获取拦截队列
-    :return:
-    '''
-    return FilterDict._reject_ip_list
-
-def del_ip_from_reject(ip):
-    '''
-    从拦截队列中删除一个ip
-    :param ip:
-    :return:
-    '''
-    if ip in FilterDict._reject_ip_list:
-        FilterDict._reject_ip_list.remove(ip)
-
-def remove_reject_list(ip_address):
-    '''
-    从拦截队列中删除一个ip
-    :param ip_address:
-    :return: 删除是否成功
-    '''
-    if ip_address in FilterDict._reject_ip_list:
-        FilterDict._reject_ip_list.remove(ip_address)
-        return True
-    else:
-        return False
 
 def get_filter_dict_(config,get_mapping,post_mapping):
     '''
@@ -91,7 +49,10 @@ def get_filter_dict_(config,get_mapping,post_mapping):
                 else:
                     filter_dict[item] = _filter_name[item[0:index]]
 
-    FilterDict._initial_filter_dict=filter_dict
+    '''
+    保存初始filter_dict
+    '''
+    container.set_initial_filter(filter_dict)
     '''
     优化
     '''
