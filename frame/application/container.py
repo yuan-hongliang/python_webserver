@@ -16,6 +16,9 @@ class Container:
     max_request_queue_len = None
 
 
+
+
+
 def add_new_interface(name,fn,method='all'):
     '''
     向mapping中添加一个新的接口

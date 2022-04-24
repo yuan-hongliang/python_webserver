@@ -1,6 +1,5 @@
 from frame.application import container
-from frame.init.engine import init
-from frame.init.init_server import *
+from frame.init import engine
 from frame.execute.task import *
 from frame.thread.thread_pool import ThreadPoolExecutor
 from frame.application.log import init_log_list,storage_all_data
@@ -103,7 +102,7 @@ def init_():
     '''
     初始化容器
     '''
-    init(application)
+    engine.init(application)
 
     '''
     get_mapping get方法的方法列表
@@ -112,7 +111,6 @@ def init_():
     '''
     global get_mapping,post_mapping
     get_mapping,post_mapping = container.all_mapping()
-    print("包文件扫描成功")
 
     '''
     filter_list 过滤器列表
@@ -121,14 +119,12 @@ def init_():
     global filter_dict,reject_list
     filter_dict = container.get_filter_dict()
     reject_list = container.get_reject_list()
-    print("过滤器加载成功")
 
     '''
     request_queue 请求队列，最大长度在application.json的 server.request_queue_maximum 设置
     '''
     global request_queue,_request_queue_len
     request_queue,_request_queue_len = container.get_request_queue()
-    print("请求队列初始化成功")
 
     '''
     初始化日志队列日志队列
