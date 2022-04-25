@@ -17,14 +17,13 @@ def init_socket(config):
     :param config:
     :return:
     '''
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # with open("../../application.json", 'r', encoding='UTF-8') as f:
     #     config = json.load(f)
     # config = getJson()
 
-    HOST='0.0.0.0'
-    POST=8088
+    HOST = '0.0.0.0'
+    POST = 8088
 
     if config.__contains__("server") :
 
@@ -36,10 +35,10 @@ def init_socket(config):
         if server.__contains__("post") :
             if isinstance(server["post"], str):
                 POST=int(server["post"])
-            else: POST=server["post"]
+            else:
+                POST=server["post"]
 
-    s.bind((HOST, POST))
-    container.set_socket(s,HOST, POST)
+    container.set_socket(HOST, POST)
 
 def init_thread_pool(config=None):
     '''

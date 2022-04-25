@@ -6,8 +6,8 @@ import time
 
 INFO_LOG = 'info'
 WARN_LOG = 'warn'
-ERROR_LOG= 'error'
-SPLIT_LINE="==============================>"
+ERROR_LOG = 'error'
+SPLIT_LINE = "==============================>"
 
 class Log:
     type_map={INFO_LOG:'type--info',WARN_LOG:'type--warning',ERROR_LOG:'type--error'}

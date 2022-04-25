@@ -1,22 +1,29 @@
-
+import socket
 
 class Container:
+    '''
+    controller
+    '''
     get_mapping={}
     post_mapping={}
-
+    '''
+    filter
+    '''
     initial_filter_dict = {}
     filter_dict = {}
     reject_ip_list = set()
-
+    '''
+    socket
+    '''
     HOST = '0.0.0.0'
     POST = 8088
     socket_=None
+    '''
+    thread_pool
+    '''
     thread_poll = None
     request_queue = None
     max_request_queue_len = None
-
-
-
 
 
 def add_new_interface(name,fn,method='all'):
@@ -36,9 +43,19 @@ def all_mapping():
     return Container.get_mapping,Container.post_mapping
 
 def set_filter_dict(dic):
+    '''
+    设置filter
+    :param dic:
+    :return:
+    '''
     Container.filter_dict = dic
 
 def set_initial_filter(dic):
+    '''
+    临时
+    :param dic:
+    :return:
+    '''
     Container.initial_filter_dict = dic
 
 def get_filter_dict():
@@ -83,8 +100,15 @@ def get_reject_list():
     '''
     return Container.reject_ip_list
 
-def set_socket(socket_,HOST='0.0.0.0',POST=8088):
-    Container.socket_=socket_
+def set_socket(HOST='0.0.0.0',POST=8088):
+    '''
+    设置socket连接
+    :param HOST: 本机ip地址
+    :param POST: 端口号
+    :return:
+    '''
+    Container.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    Container.socket.bind((HOST, POST))
     Container.HOST=HOST
     Container.POST=POST
 
