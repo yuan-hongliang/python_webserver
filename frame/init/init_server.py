@@ -47,14 +47,14 @@ def init_thread_pool(config=None):
     :return:
     '''
     if config!=None:
-        max_workers=50
-        wait_queue =50
+        max_workers=1000
+        wait_queue =1000
         if "server" in config:
             if "thread_pool_max_workers" in config["server"]:
                 max_workers=int(config["server"]["thread_pool_max_workers"])
             if "wait_queue_maximum" in config["server"]:
                 wait_queue=int(config["server"]["wait_queue_maximum"])
-        container.set_thread_pool(ThreadPoolExecutor(max_workers, wait_queue))
+        container.set_thread_pool(max_workers, wait_queue)
 
 
 def init_request_queue(config=None):

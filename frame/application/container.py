@@ -1,4 +1,5 @@
 import socket
+from frame.thread.thread_pool import ThreadPoolExecutor
 
 class Container:
     '''
@@ -107,16 +108,16 @@ def set_socket(HOST='0.0.0.0',POST=8088):
     :param POST: 端口号
     :return:
     '''
-    Container.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    Container.socket.bind((HOST, POST))
+    Container.socket_ = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    Container.socket_.bind((HOST, POST))
     Container.HOST=HOST
     Container.POST=POST
 
 def get_socket():
     return Container.socket_,Container.HOST, Container.POST
 
-def set_thread_pool(thread_poll):
-    Container.thread_poll = thread_poll
+def set_thread_pool(max_workers=1000, wait_queue=1000):
+    Container.thread_poll = ThreadPoolExecutor(max_workers, wait_queue)
 
 
 def get_thread_pool():

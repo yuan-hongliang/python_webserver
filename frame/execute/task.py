@@ -159,8 +159,8 @@ def execute_function(fn,parameter_map,request):
                 args += "None,"
         count -= 1
         if count == 0: break
-    if len(args) > 0:
-        args = args[:-1]
+    # if len(args) > 0:
+    #     args = args[:-1]
 
     '''
     所有参数以字符串的形式添加到方法后，

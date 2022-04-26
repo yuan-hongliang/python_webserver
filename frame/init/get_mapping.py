@@ -79,11 +79,23 @@ def get_all_class(application):
         if "controller" in application["init"]:
             page_list=application["init"]["controller"]
 
+    '''
+    去重
+    '''
+    page_list = set(page_list)
+
     for item in page_list:
-        imp_module = __import__(item)
-        for name, _ in inspect.getmembers(sys.modules[item], inspect.isclass):
-            obj=getattr(imp_module, name)
-            class_list.append(obj)
+        try:
+            # 尝试导入这个包
+            imp_module = __import__(item)
+        except Exception as es:
+            # 导入失败则直接跳过
+            pass
+        else:
+            # 导入成功后则将包块下的类加载到类列表中
+            for name, _ in inspect.getmembers(sys.modules[item], inspect.isclass):
+                obj=getattr(imp_module, name)
+                class_list.append(obj)
 
 
 

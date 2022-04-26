@@ -128,10 +128,22 @@ def get_all_class(config):
         if "filter" in config["init"]:
             filter_package = config["init"]["filter"]
 
+    '''
+    去重
+    '''
+    filter_package = set(filter_package)
+
     class_list=[]
     for item in filter_package:
-        imp_module = __import__(item)
-        for name, _ in inspect.getmembers(sys.modules[item], inspect.isclass):
-            obj=getattr(imp_module, name)
-            class_list.append(obj)
+        try:
+            # 尝试导入包
+            imp_module = __import__(item)
+        except Exception as es:
+            # 导入失败就跳过
+            pass
+        else:
+            # 导入成功就加载类
+            for name, _ in inspect.getmembers(sys.modules[item], inspect.isclass):
+                obj=getattr(imp_module, name)
+                class_list.append(obj)
     return class_list
