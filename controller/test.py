@@ -16,7 +16,7 @@ class Test3:
         for i in range(100):
             a.append(name*10000)
         sleep(3)
-        # iLog(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "test")
+        iLog(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "test")
         # wLog(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "test")
         # eLog(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")+"test")
         # cc = 0/0

@@ -91,8 +91,17 @@ def storage_log():
     '''
     while True:
         time.sleep(5)
-        while len(Log.log_deque) > Log._log_max_len:
-            storage(Log.log_deque.popleft())
+        if len(Log.log_deque) > Log._log_max_len:
+            if Log._log_max_len == 0 or Log._log_max_len == 1:
+                while len(Log.log_deque) > Log._log_max_len:
+                    storage(Log.log_deque.popleft())
+            else:
+                count = Log._log_max_len/2
+                data=""
+                while count>0:
+                    data += Log.log_deque.popleft()+"\n"
+                    count-=1
+                storage(data)
 
 def storage(data):
     '''
@@ -108,5 +117,7 @@ def storage_all_data():
     将日志队列的数据全部持久化
     :return:
     '''
+    data = ""
     while len(Log.log_deque) > 0:
-        storage(Log.log_deque.popleft())
+        data += Log.log_deque.popleft()+"\n"
+    storage(data)
